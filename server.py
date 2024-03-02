@@ -1,13 +1,26 @@
-#TODO :  build a tcp server in python
+# building a simple tcp clent using python
 
-from http import server
 import socket
-import threading
 
-# defining the host
+# initalising the host and port constants
 
-host = '127.0.0.1'
-port = 55555
+HOST = "127.0.0.1"
+PORT = 65432
 
-# starting server
-server = socket.socket(socket.AF_INET)
+with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as so:
+    so.bind((HOST,PORT))
+    so.listen()
+
+    conn,addr = so.accept()
+    with conn:
+        print(f"Connected by {addr}")
+        while True:
+            data = conn.recv(1024)
+            if not data :
+                break
+            conn.sendall(data)
+        
+    
+
+
+
